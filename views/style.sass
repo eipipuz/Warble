@@ -1,0 +1,69 @@
+!border_color = #333333
+!main_color = #EEEEEE
+!border_style = 1px dashed
+
+html
+  :overflow hidden
+body
+  :margin 50px 0px
+  :padding 0px
+  :text
+    :align center
+  :overflow auto
+
+#content
+  :height 100%
+
+.main
+  :width 640px
+  :min-height 480px
+  :margin 0px auto
+    :bottom 5px
+  :text-align left
+  :padding 15px
+  :border = !border_style
+    :color = !border_color
+  :background-color = !main_color
+
+.bottom
+  :background-color = !main_color
+  :bottom 0px
+  :position absolute
+  :width 100%
+  :border
+    :top = !border_style
+    :color = !border_color
+
+  p
+    :margin 0px auto
+
+hr
+  :border 0px
+  :width 50%
+  :border-bottom = !border_style
+
+textarea
+  :width 600px
+  :margin-left 20px
+
+.main div div
+  :position relative
+  :float right
+  :min-width 3.5em
+  :min-height 1.5em
+
+#remaining.warning
+  :font
+    :size 110%
+    :weight bold
+
+#remaining.error
+  :font
+    :size 130%
+    :weight bole
+  :color #FF0000
+
+.sample
+  :display none
+dd
+  :max-width 480px
