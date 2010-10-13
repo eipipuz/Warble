@@ -8,6 +8,12 @@ get '/' do
   haml :index
 end
 
+post '/warble' do
+end
+
+delete '/warble' do
+end
+
 get '/hi' do
   haml '%div.title Hello'
 end
