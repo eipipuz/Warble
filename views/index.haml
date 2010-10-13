@@ -6,9 +6,13 @@
     %script{:src => 'jquery.js', :type => 'text/javascript'}
     %script{:type => 'text/javascript'}
       :plain
-        var words = {'Warble': '[Knowledge] in 140 characters or less'};
+        var words = {};
+        var word_counter = 0;
+        var initial_words = {'Warble': '[Knowledge] in 140 characters or less'};
+        var linkify = /[\[\]]/g;
 
-        function check(definition) {
+        function check(a_tag) {
+          console.log(a_tag);
           return false;
         }
 
@@ -20,17 +24,45 @@
             .toggleClass('error', 140 < length);
         }
 
+        function replace_brace(match) {
+          if(match == '['){
+            return '[<a href="#" onclick="javascript:check(this);">';
+          }
+          return '</a>]';
+        }
+
         function parse_links(definition) {
-          //Add "a" tag
+          definition = definition.replace(linkify, replace_brace);
           return jQuery.trim(definition);
         }
 
         function load_word(word, definition) {
-          var new_concept = $('.sample').clone()
-            .removeClass('sample')
-            .insertAfter('.sample');
-          new_concept.children('dt').text(word);
-          new_concept.children('dd').text(parse_links(definition));
+          if(words[word] == undefined) {
+            var word_id = 'word_' + word_counter;
+            word_counter++;
+            var new_concept = $('.sample').clone()
+              .removeClass('sample')
+              .insertAfter('.sample')
+              .attr('id', word_id)
+              .mouseover(function() { $('#'+word_id).addClass('highlight'); })
+              .mouseout(function() { $('#'+word_id).removeClass('highlight'); })
+              .click(function() { edit($('#'+word_id)); })
+              .children('dt').text(word).end();
+
+            var dd = new_concept.children('dd');
+          } else {
+            dd = words[word];
+          }
+          dd.html(parse_links(definition));
+          words[word] = dd;
+        }
+
+        function edit(dd) {
+          var data = document.getElementById('data');
+          var word = dd.children('dt').text();
+          var definition = dd.children('dd').text();
+          data.value = word + ':' + definition;
+          recount();
         }
 
         function add_definition(e) {
@@ -47,6 +79,9 @@
 
               //TODO Update if a visible definition
               //console.log('w '+word+' d '+definition);
+
+
+              document.getElementById('data').value = '';
             }
             e.preventDefault();
           }
@@ -59,8 +94,8 @@
             .focus();
           recount();
 
-          for(var w in words) {
-            load_word(w, words[w]);
+          for(var w in initial_words) {
+            load_word(w, initial_words[w]);
           }
         });
   %body
@@ -74,8 +109,8 @@
             (
             %span#remaining.countdown 29
             )
-        %textarea#data Warble's Motto: Spread wisdom
-        %dl.sample
+        %textarea#data Your goal: Spread wisdom
+        %dl#sample.sample
           %hr
           %dt 
           %dd
