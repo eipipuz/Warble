@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'json'
 require 'sinatra'
 require 'haml'
 require 'warble.rb'

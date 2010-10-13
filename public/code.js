@@ -1,6 +1,6 @@
 var words = {};
 var word_counter = 0;
-var initial_words = {'Warble': '[Knowledge] in 140 characters or less'};
+//var initial_words = {'Warble': '[Knowledge] in 140 characters or less'};
 var linkify = /[\[\]]/g;
 
 function check(a_tag) {
@@ -53,7 +53,7 @@ function add_closer(word_id, word) {
 function remove(word_id, word) {
   words[word] = undefined;
   $('#' + word_id).remove();
-  $.post('delete_warble', word, function(data){
+  $.delete('warble', word, function(data){
     //TODO Check RC
   }, 'json');
 }
@@ -105,7 +105,6 @@ function add_definition(e) {
       var send_data = {};
       send_data[word] = definition;
       $.post('warble', send_data, function(data) {
-        console.log(data);
         //TODO check RC.
       },'json');
 
@@ -121,7 +120,10 @@ $(document).ready(function() {
     .focus();
   recount();
 
-  for(var w in initial_words) {
-    load_word(w, initial_words[w]);
-  }
+  $.get('warble', {}, function(initial_words) {
+    //eval('initial_words = '+initial_words);
+    for(var w in initial_words) {
+      load_word(w, initial_words[w]);
+    }
+  }, 'json');
 });
