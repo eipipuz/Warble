@@ -59,21 +59,22 @@ function remove(word_id, word) {
 }
 
 function load_word(word, definition) {
+  var dd;
   if(words[word] == undefined) {
     var word_id = 'word_' + word_counter;
     word_counter++;
-    var new_concept = $('.sample').clone()
+    dd = $('.sample').clone()
       .removeClass('sample')
       .insertAfter('.sample')
       .attr('id', word_id)
       .mouseover(function() { $('#'+word_id).addClass('highlight'); })
       .mouseout(function() { $('#'+word_id).removeClass('highlight'); })
       .click(function() { edit($('#'+word_id)); })
-      .children('dt').text(word).end(); //This puts the word
+      .children('dt').text(word).end() //This puts the word
+      .children('dd');
 
     add_closer(word_id, word);
 
-    var dd = new_concept.children('dd');
   } else {
     dd = words[word];
   }
@@ -104,6 +105,7 @@ function add_definition(e) {
       var send_data = {};
       send_data[word] = definition;
       $.post('warble', send_data, function(data) {
+        console.log(data);
         //TODO check RC.
       },'json');
 

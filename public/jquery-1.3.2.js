@@ -3318,22 +3318,6 @@ jQuery.each( "ajaxStart,ajaxStop,ajaxComplete,ajaxError,ajaxSuccess,ajaxSend".sp
 var jsc = now();
 
 jQuery.extend({
-  
-	get: function( url, data, callback, type ) {
-		// shift arguments if data argument was ommited
-		if ( jQuery.isFunction( data ) ) {
-			callback = data;
-			data = null;
-		}
-
-		return jQuery.ajax({
-			type: "GET",
-			url: url,
-			data: data,
-			success: callback,
-			dataType: type
-		});
-	},
 
 	getScript: function( url, callback ) {
 		return jQuery.get(url, null, callback, "script");
@@ -3358,16 +3342,20 @@ jQuery.extend({
 		});
 	},
 
+	get: function( url, data, callback, type ) {
+    return jQuery._ajax_request(url, data, callback, type, 'GET');
+	},
+
   post: function( url, data, callback, type ) {
-    return _ajax_request(url, data, callback, type, 'POST');
+    return jQuery._ajax_request(url, data, callback, type, 'POST');
   },
 
   put: function( url, data, callback, type ) {
-    return _ajax_request(url, data, callback, type, 'PUT');
+    return jQuery._ajax_request(url, data, callback, type, 'PUT');
   },
 
   delete: function( url, data, callback, type ) {
-    return _ajax_request(url, data, callback, type, 'DELETE');
+    return jQuery._ajax_request(url, data, callback, type, 'DELETE');
   },
 
 	ajaxSetup: function( settings ) {
