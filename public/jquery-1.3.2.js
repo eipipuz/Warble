@@ -1,4 +1,4 @@
-/*!
+/*
  * jQuery JavaScript Library v1.3.2
  * http://jquery.com/
  *
@@ -3354,7 +3354,7 @@ jQuery.extend({
     return jQuery._ajax_request(url, data, callback, type, 'PUT');
   },
 
-  delete: function( url, data, callback, type ) {
+  'delete': function( url, data, callback, type ) {
     return jQuery._ajax_request(url, data, callback, type, 'DELETE');
   },
 
